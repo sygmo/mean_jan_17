@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title></title>
+    <script src='bower_components/angular/angular.js'></script>
+    <script type='text/javascript'>
+        var myApp = angular.module('myApp', []);
+        myApp.controller('usersController', ['$scope', function ($scope){
+            $scope.users = [];
+            $scope.submit = function() {
+                var user = {
+                    first_name: $scope.first_name,
+                    last_name: $scope.last_name,
+                    fav_language: $scope.language
+                };
+                $scope.users.push(user);
+                $scope.first_name = '';
+                $scope.last_name = '';
+                $scope.language = '';
+                console.log($scope.users); 
+            };
+
+            $scope.printIndex = function(val){
+              console.log(val);
+            };
+
+            $scope.removeUser = function(index) {
+                $scope.users.splice(index, 1);
+                console.log($scope.users); 
+            };
+        }]);
+    </script>
+</head>
+<body ng-app='myApp'>
+    <div ng-controller='usersController'>
+        <form ng-submit='submit()'>        
+            First Name: <input type="text" ng-model="first_name" name="first_name">
+            Last Name: <input type="text" ng-model="last_name" name="last_name">
+            Favorite Language: <input type="text" ng-model="language" name="language">
+            <input type='submit' id='submit' value='Create User'>
+        </form>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Favorite Language</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="user in users track by $index">
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.fav_language }}</td>
+                <td><button ng-click = 'removeUser($index)'>Delete User</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
